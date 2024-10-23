@@ -101,12 +101,10 @@ class Scripts implements Scriptable {
 		}
 		$php_file = str_replace( '.css', '.asset.php', $path );
 		$asset    = $php_file && file_exists( $php_file ) ? require $php_file : array(
-			'dependencies' => array(),
-			'version'      => $this->plugin->get_version(),
+			'version' => $this->plugin->get_version(),
 		);
 
-		$deps = array_merge( $asset['dependencies'], $deps );
-		$ver  = $asset['version'];
+		$ver = $asset['version'];
 
 		wp_register_style( $handle, $url, $deps, $ver, $media );
 

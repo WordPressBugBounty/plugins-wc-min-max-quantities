@@ -93,7 +93,8 @@ class Notices {
 				$classes = array_unique( array_filter( wp_parse_list( $notice['class'] ) ) );
 				$style   = ! empty( $notice['style'] ) ? $notice['style'] : '';
 				$message = $notice['message'];
-				if ( (bool) preg_match( '/^(\/[a-zA-Z0-9_-]+)+\/?[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/', $message ) ) {
+				if ( str_ends_with( $message, '.php' ) ) {
+					wp_enqueue_style( 'bytekit-components' );
 					$path = wp_normalize_path( $message );
 					if ( file_exists( $path ) ) {
 						ob_start();

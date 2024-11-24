@@ -4,12 +4,16 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita669c94c0748f20dc46817e5bb557377
+class ComposerStaticInit65c3e999d6e89c3a45746a14d7086c48
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
         array (
             'WooCommerceMinMaxQuantities\\' => 28,
+        ),
+        'B' => 
+        array (
+            'ByteKit\\' => 8,
         ),
     );
 
@@ -17,26 +21,30 @@ class ComposerStaticInita669c94c0748f20dc46817e5bb557377
         'WooCommerceMinMaxQuantities\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
-            1 => __DIR__ . '/../..' . '/lib',
+        ),
+        'ByteKit\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/byteever/bytekit-plugin/src',
+            1 => __DIR__ . '/..' . '/byteever/bytekit-settings/src',
         ),
     );
 
     public static $classMap = array (
+        'ByteKit\\Admin\\Flash' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Admin/Flash.php',
+        'ByteKit\\Admin\\Notices' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Admin/Notices.php',
+        'ByteKit\\Admin\\Settings' => __DIR__ . '/..' . '/byteever/bytekit-settings/src/Admin/Settings.php',
+        'ByteKit\\Interfaces\\Pluginable' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Interfaces/Pluginable.php',
+        'ByteKit\\Interfaces\\Scriptable' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Interfaces/Scriptable.php',
+        'ByteKit\\Plugin' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Plugin.php',
+        'ByteKit\\Scripts' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Scripts.php',
+        'ByteKit\\Services' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Services.php',
+        'ByteKit\\Traits\\HasPlugin' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Traits/HasPlugin.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'WooCommerceMinMaxQuantities\\Admin\\Actions' => __DIR__ . '/../..' . '/includes/Admin/Actions.php',
         'WooCommerceMinMaxQuantities\\Admin\\Admin' => __DIR__ . '/../..' . '/includes/Admin/Admin.php',
         'WooCommerceMinMaxQuantities\\Admin\\MetaBoxes' => __DIR__ . '/../..' . '/includes/Admin/MetaBoxes.php',
         'WooCommerceMinMaxQuantities\\Admin\\Notices' => __DIR__ . '/../..' . '/includes/Admin/Notices.php',
         'WooCommerceMinMaxQuantities\\Admin\\Settings' => __DIR__ . '/../..' . '/includes/Admin/Settings.php',
-        'WooCommerceMinMaxQuantities\\ByteKit\\Admin\\Flash' => __DIR__ . '/../..' . '/lib/ByteKit/Admin/Flash.php',
-        'WooCommerceMinMaxQuantities\\ByteKit\\Admin\\Notices' => __DIR__ . '/../..' . '/lib/ByteKit/Admin/Notices.php',
-        'WooCommerceMinMaxQuantities\\ByteKit\\Admin\\Settings' => __DIR__ . '/../..' . '/lib/ByteKit/Admin/Settings.php',
-        'WooCommerceMinMaxQuantities\\ByteKit\\Interfaces\\Pluginable' => __DIR__ . '/../..' . '/lib/ByteKit/Interfaces/Pluginable.php',
-        'WooCommerceMinMaxQuantities\\ByteKit\\Interfaces\\Scriptable' => __DIR__ . '/../..' . '/lib/ByteKit/Interfaces/Scriptable.php',
-        'WooCommerceMinMaxQuantities\\ByteKit\\Plugin' => __DIR__ . '/../..' . '/lib/ByteKit/Plugin.php',
-        'WooCommerceMinMaxQuantities\\ByteKit\\Scripts' => __DIR__ . '/../..' . '/lib/ByteKit/Scripts.php',
-        'WooCommerceMinMaxQuantities\\ByteKit\\Services' => __DIR__ . '/../..' . '/lib/ByteKit/Services.php',
-        'WooCommerceMinMaxQuantities\\ByteKit\\Traits\\HasPlugin' => __DIR__ . '/../..' . '/lib/ByteKit/Traits/HasPlugin.php',
         'WooCommerceMinMaxQuantities\\Cart' => __DIR__ . '/../..' . '/includes/Cart.php',
         'WooCommerceMinMaxQuantities\\Installer' => __DIR__ . '/../..' . '/includes/Installer.php',
         'WooCommerceMinMaxQuantities\\Plugin' => __DIR__ . '/../..' . '/includes/Plugin.php',
@@ -45,9 +53,9 @@ class ComposerStaticInita669c94c0748f20dc46817e5bb557377
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita669c94c0748f20dc46817e5bb557377::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita669c94c0748f20dc46817e5bb557377::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita669c94c0748f20dc46817e5bb557377::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit65c3e999d6e89c3a45746a14d7086c48::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit65c3e999d6e89c3a45746a14d7086c48::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit65c3e999d6e89c3a45746a14d7086c48::$classMap;
 
         }, null, ClassLoader::class);
     }

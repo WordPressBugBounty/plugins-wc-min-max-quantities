@@ -1,0 +1,2 @@
+= 1.0.0 =
+* Asset directory changed to `build`, so make sure to update your asset paths.

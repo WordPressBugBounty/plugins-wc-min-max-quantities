@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.1.4
  * @package WooCommerceMinMaxQuantities
  */
-final class Plugin extends ByteKit\Plugin {
+final class Plugin extends \WooCommerceMinMaxQuantities\ByteKit\Plugin {
 
 	/**
 	 * Plugin constructor.
@@ -59,29 +59,25 @@ final class Plugin extends ByteKit\Plugin {
 	 */
 	public function init_hooks() {
 		register_activation_hook( $this->get_file(), array( Installer::class, 'install' ) );
-		add_action( 'admin_notices', array( $this, 'dependencies_notices' ) );
+		add_filter( 'plugin_action_links_' . $this->get_basename(), array( $this, 'plugin_action_links' ) );
 		add_action( 'before_woocommerce_init', array( $this, 'enable_hpos_support' ) );
 		add_action( 'woocommerce_loaded', array( $this, 'init' ), 0 );
 	}
 
 	/**
-	 * Missing dependencies notice.
+	 * Add plugin action links.
 	 *
-	 * @since 1.0.0
-	 * @return void
+	 * @param array $links The plugin action links.
+	 *
+	 * @since 2.0.3
+	 * @return array
 	 */
-	public function dependencies_notices() {
-		if ( $this->is_plugin_active( 'woocommerce' ) ) {
-			return;
+	public function plugin_action_links( $links ) {
+		if ( ! $this->is_plugin_active( 'wc-min-max-quantities-pro/wc-min-max-quantities-pro.php' ) ) {
+			$links['go_pro'] = '<a href="https://pluginever.com/plugins/woocommerce-min-max-quantities-pro/" target="_blank" style="color: #39b54a; font-weight: bold;">' . esc_html__( 'Go Pro', 'wc-min-max-quantities' ) . '</a>';
 		}
-		$notice = sprintf(
-		/* translators: 1: plugin name 2: WooCommerce */
-			__( '%1$s requires %2$s to be installed and active.', 'wc-min-max-quantities' ),
-			'<strong>' . esc_html( $this->get_name() ) . '</strong>',
-			'<strong>' . esc_html__( 'WooCommerce', 'wc-min-max-quantities' ) . '</strong>'
-		);
 
-		echo '<div class="notice notice-error"><p>' . wp_kses_post( $notice ) . '</p></div>';
+		return $links;
 	}
 
 	/**
@@ -111,7 +107,6 @@ final class Plugin extends ByteKit\Plugin {
 		// Admin only classes.
 		if ( is_admin() ) {
 			$this->set( Admin\Admin::class );
-			$this->set( Admin\Notices::class );
 		}
 
 		// Do action after plugin loaded.

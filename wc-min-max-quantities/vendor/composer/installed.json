@@ -1,5 +1,147 @@
 {
-    "packages": [],
+    "packages": [
+        {
+            "name": "byteever/bytekit-plugin",
+            "version": "v1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:byteever/bytekit-plugin.git",
+                "reference": "251d268b3ec3b2388d991d540bc7dd1eb2e979fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byteever/bytekit-plugin/zipball/251d268b3ec3b2388d991d540bc7dd1eb2e979fc",
+                "reference": "251d268b3ec3b2388d991d540bc7dd1eb2e979fc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "byteever/byteever-sniffs": "dev-master",
+                "codeception/module-asserts": "^1.0",
+                "codeception/module-cli": "^1.0",
+                "codeception/module-db": "^1.0",
+                "codeception/module-filesystem": "^1.0",
+                "codeception/module-phpbrowser": "^1.0",
+                "codeception/module-rest": "^2.0",
+                "codeception/module-webdriver": "^1.0",
+                "codeception/util-universalframework": "^1.0",
+                "lucatume/wp-browser": "<3.5"
+            },
+            "time": "2024-11-10T15:50:54+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "ByteKit\\": "src/"
+                }
+            },
+            "scripts": {
+                "phpcs": [
+                    "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -v"
+                ],
+                "phpcbf": [
+                    "@php ./vendor/bin/phpcbf --standard=phpcs.xml -v"
+                ],
+                "test:setup": [
+                    "bash bin/install-test-env.sh"
+                ],
+                "test:build": [
+                    "vendor/bin/codecept build"
+                ],
+                "test:wpunit": [
+                    "vendor/bin/codecept run wpunit --"
+                ],
+                "test:functional": [
+                    "vendor/bin/codecept run functional --"
+                ],
+                "test:acceptance": [
+                    "vendor/bin/codecept run acceptance --"
+                ],
+                "test:gen:wpunit": [
+                    "vendor/bin/codecept generate:wpunit wpunit"
+                ],
+                "test:gen:functional": [
+                    "vendor/bin/codecept generate:wpunit functional"
+                ],
+                "test:gen:acceptance": [
+                    "vendor/bin/codecept generate:acceptance acceptance"
+                ],
+                "test": [
+                    "vendor/bin/codecept run --"
+                ]
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Sultan Nasir Uddin",
+                    "email": "manikdrmc@gmail.com"
+                }
+            ],
+            "description": "A set of related classes to kick start WordPress plugin development.",
+            "support": {
+                "source": "https://github.com/byteever/bytekit-plugin/tree/v1.0.0",
+                "issues": "https://github.com/byteever/bytekit-plugin/issues"
+            },
+            "install-path": "../byteever/bytekit-plugin"
+        },
+        {
+            "name": "byteever/bytekit-settings",
+            "version": "v1.0.1",
+            "version_normalized": "1.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:byteever/bytekit-settings.git",
+                "reference": "fd2869d2b8d8e1e93ff8aa136465a117b55aa5a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byteever/bytekit-settings/zipball/fd2869d2b8d8e1e93ff8aa136465a117b55aa5a5",
+                "reference": "fd2869d2b8d8e1e93ff8aa136465a117b55aa5a5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "byteever/byteever-sniffs": "dev-master"
+            },
+            "time": "2024-11-12T17:28:41+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "ByteKit\\": "src/"
+                }
+            },
+            "scripts": {
+                "phpcs": [
+                    "@php ./vendor/bin/phpcs --standard=phpcs.xml -s -v"
+                ],
+                "phpcbf": [
+                    "@php ./vendor/bin/phpcbf --standard=phpcs.xml -v"
+                ]
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Sultan Nasir Uddin",
+                    "email": "manikdrmc@gmail.com"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/byteever/bytekit-settings/tree/v1.0.1",
+                "issues": "https://github.com/byteever/bytekit-settings/issues"
+            },
+            "install-path": "../byteever/bytekit-settings"
+        }
+    ],
     "dev": false,
     "dev-package-names": []
 }

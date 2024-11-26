@@ -6,7 +6,7 @@ namespace WooCommerceMinMaxQuantities\ByteKit\Admin;
  * Settings class
  *
  * @since   1.0.0
- * @version 1.0.1
+ * @version 1.0.2
  * @author  Sultan Nasir Uddin <manikdrmc@gmail.com>
  * @package ByteKit/Settings
  * @license GPL-3.0+

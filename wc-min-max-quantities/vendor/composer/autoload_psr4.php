@@ -7,5 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'WooCommerceMinMaxQuantities\\' => array($baseDir . '/includes'),
-    'ByteKit\\' => array($vendorDir . '/byteever/bytekit-plugin/src', $vendorDir . '/byteever/bytekit-settings/src'),
+    'ByteKit\\' => array($vendorDir . '/byteever/bytekit-settings/src', $vendorDir . '/byteever/bytekit-plugin/src'),
 );

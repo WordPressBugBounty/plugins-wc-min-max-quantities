@@ -24,8 +24,8 @@ class ComposerStaticInit1563e15b50b45c2d0c0a313e646f3e84
         ),
         'ByteKit\\' => 
         array (
-            0 => __DIR__ . '/..' . '/byteever/bytekit-plugin/src',
-            1 => __DIR__ . '/..' . '/byteever/bytekit-settings/src',
+            0 => __DIR__ . '/..' . '/byteever/bytekit-settings/src',
+            1 => __DIR__ . '/..' . '/byteever/bytekit-plugin/src',
         ),
     );
 

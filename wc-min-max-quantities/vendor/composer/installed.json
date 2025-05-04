@@ -35,7 +35,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "WooCommerceMinMaxQuantities\\ByteKit\\": "src/"
+                    "ByteKit\\": "src/"
                 }
             },
             "scripts": {
@@ -87,7 +87,7 @@
                 "source": "https://github.com/byteever/bytekit-plugin/tree/v1.0.2",
                 "issues": "https://github.com/byteever/bytekit-plugin/issues"
             },
-            "install-path": "../../vendor-prefixed/byteever/bytekit-plugin/"
+            "install-path": "../byteever/bytekit-plugin"
         },
         {
             "name": "byteever/bytekit-settings",
@@ -115,7 +115,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "WooCommerceMinMaxQuantities\\ByteKit\\": "src/"
+                    "ByteKit\\": "src/"
                 }
             },
             "scripts": {
@@ -139,7 +139,7 @@
                 "source": "https://github.com/byteever/bytekit-settings/tree/v1.0.2",
                 "issues": "https://github.com/byteever/bytekit-settings/issues"
             },
-            "install-path": "../../vendor-prefixed/byteever/bytekit-settings/"
+            "install-path": "../byteever/bytekit-settings"
         }
     ],
     "dev": false,

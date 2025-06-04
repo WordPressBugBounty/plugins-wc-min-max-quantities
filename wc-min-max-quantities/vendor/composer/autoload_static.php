@@ -4,16 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1563e15b50b45c2d0c0a313e646f3e84
+class ComposerStaticInitac0a80cfdd9a421abbadcbfb2ee21232
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
         array (
             'WooCommerceMinMaxQuantities\\' => 28,
-        ),
-        'B' => 
-        array (
-            'ByteKit\\' => 8,
         ),
     );
 
@@ -22,23 +18,9 @@ class ComposerStaticInit1563e15b50b45c2d0c0a313e646f3e84
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
-        'ByteKit\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/byteever/bytekit-settings/src',
-            1 => __DIR__ . '/..' . '/byteever/bytekit-plugin/src',
-        ),
     );
 
     public static $classMap = array (
-        'ByteKit\\Admin\\Flash' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Admin/Flash.php',
-        'ByteKit\\Admin\\Notices' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Admin/Notices.php',
-        'ByteKit\\Admin\\Settings' => __DIR__ . '/..' . '/byteever/bytekit-settings/src/Admin/Settings.php',
-        'ByteKit\\Interfaces\\Pluginable' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Interfaces/Pluginable.php',
-        'ByteKit\\Interfaces\\Scriptable' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Interfaces/Scriptable.php',
-        'ByteKit\\Plugin' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Plugin.php',
-        'ByteKit\\Scripts' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Scripts.php',
-        'ByteKit\\Services' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Services.php',
-        'ByteKit\\Traits\\HasPlugin' => __DIR__ . '/..' . '/byteever/bytekit-plugin/src/Traits/HasPlugin.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'WooCommerceMinMaxQuantities\\Admin\\Actions' => __DIR__ . '/../..' . '/includes/Admin/Actions.php',
         'WooCommerceMinMaxQuantities\\Admin\\Admin' => __DIR__ . '/../..' . '/includes/Admin/Admin.php',
@@ -53,9 +35,9 @@ class ComposerStaticInit1563e15b50b45c2d0c0a313e646f3e84
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1563e15b50b45c2d0c0a313e646f3e84::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1563e15b50b45c2d0c0a313e646f3e84::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit1563e15b50b45c2d0c0a313e646f3e84::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitac0a80cfdd9a421abbadcbfb2ee21232::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitac0a80cfdd9a421abbadcbfb2ee21232::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitac0a80cfdd9a421abbadcbfb2ee21232::$classMap;
 
         }, null, ClassLoader::class);
     }

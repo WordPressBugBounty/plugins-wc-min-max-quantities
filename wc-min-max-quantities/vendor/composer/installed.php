@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'pluginever/wc-min-max-quantities',
-        'pretty_version' => 'v2.1.7',
-        'version' => '2.1.7.0',
-        'reference' => 'c359debf5c23a9dc1e8c8b9e7de233784729ee71',
+        'pretty_version' => 'v2.1.8',
+        'version' => '2.1.8.0',
+        'reference' => '81302e1525fbea172aed024089b1ddbb5980c14c',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'pluginever/wc-min-max-quantities' => array(
-            'pretty_version' => 'v2.1.7',
-            'version' => '2.1.7.0',
-            'reference' => 'c359debf5c23a9dc1e8c8b9e7de233784729ee71',
+            'pretty_version' => 'v2.1.8',
+            'version' => '2.1.8.0',
+            'reference' => '81302e1525fbea172aed024089b1ddbb5980c14c',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -2,22 +2,24 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Min Max Quantities 2.2.4\n"
+"Project-Id-Version: Min Max Quantities 2.2.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wc-min-max-quantities\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-01-18T12:00:42+00:00\n"
+"POT-Creation-Date: 2026-02-18T10:23:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wc-min-max-quantities\n"
 
 #. Plugin Name of the plugin
 #: wc-min-max-quantities.php
-#: includes/Admin/Admin.php:61
-#: includes/Admin/views/notices/tenk-celebrate.php:15
+#: includes/Admin/Admin.php:60
+#: includes/Admin/Admin.php:92
+#: includes/Admin/views/notices/special-offer.php:15
+#: includes/Installer.php:80
 msgid "Min Max Quantities"
 msgstr ""
 
@@ -41,22 +43,22 @@ msgstr ""
 msgid "https://pluginever.com/"
 msgstr ""
 
-#: includes/Admin/Admin.php:60
+#: includes/Admin/Admin.php:59
 msgid "Min Max Quantities Settings"
 msgstr ""
 
 #. translators: 1: Plugin name 2: WordPress
-#: includes/Admin/Admin.php:92
+#: includes/Admin/Admin.php:91
 #, php-format
 msgid "Thank you for using %1$s. If you like it, please leave us a %2$s rating. A huge thank you from PluginEver in advance!"
 msgstr ""
 
-#: includes/Admin/Admin.php:94
+#: includes/Admin/Admin.php:93
 msgid "Thanks :)"
 msgstr ""
 
 #. translators: 1: Plugin version
-#: includes/Admin/Admin.php:112
+#: includes/Admin/Admin.php:111
 #, php-format
 msgid "Version %s"
 msgstr ""
@@ -217,6 +219,7 @@ msgid "Install Now"
 msgstr ""
 
 #: includes/Admin/Settings.php:222
+#: includes/Plugin.php:82
 msgid "Documentation"
 msgstr ""
 
@@ -235,7 +238,7 @@ msgid "Sure, I'd love to help!"
 msgstr ""
 
 #: includes/Admin/views/notices/review.php:40
-#: includes/Admin/views/notices/tenk-celebrate.php:40
+#: includes/Admin/views/notices/special-offer.php:40
 #: includes/Admin/views/notices/upgrade.php:40
 msgid "Maybe later"
 msgstr ""
@@ -244,23 +247,22 @@ msgstr ""
 msgid "I've already left a review"
 msgstr ""
 
-#: includes/Admin/views/notices/tenk-celebrate.php:18
-msgid "10,000+ Users Celebration!"
+#: includes/Admin/views/notices/special-offer.php:18
+msgid "Enjoy 30% Special Discount - Limited Time Offer!"
 msgstr ""
 
 #. translators: %1$s: Min Max Quantities Pro link, %2$s: Coupon code.
-#: includes/Admin/views/notices/tenk-celebrate.php:24
+#: includes/Admin/views/notices/special-offer.php:24
 #, php-format
-msgid "🎉 We hit 10,000+ users! To celebrate with you, enjoy <strong>20%% discount</strong> OFF on %1$s our Premium plan. Use code: %2$s at checkout to grab the deal."
+msgid "Upgrade to %1$s & unlock powerful features to take your WooCommerce store to the next level. Get an exclusive <strong>30%% discount</strong> with code %2$s. Don't miss out on this limited-time offer!"
 msgstr ""
 
-#: includes/Admin/views/notices/tenk-celebrate.php:36
+#: includes/Admin/views/notices/special-offer.php:36
 msgid "Grab the Deal"
 msgstr ""
 
-#: includes/Admin/views/notices/tenk-celebrate.php:44
-#: includes/Admin/views/notices/upgrade.php:44
-msgid "Close permanently"
+#: includes/Admin/views/notices/special-offer.php:44
+msgid "Not interested, close permanently"
 msgstr ""
 
 #: includes/Admin/views/notices/upgrade.php:18
@@ -277,82 +279,94 @@ msgstr ""
 msgid "Upgrade now"
 msgstr ""
 
+#: includes/Admin/views/notices/upgrade.php:44
+msgid "Close permanently"
+msgstr ""
+
 #. translators: %1$s: Product name, %2$d: Maximum quantity
-#: includes/Cart.php:264
-#: includes/Cart.php:352
+#: includes/Cart.php:274
+#: includes/Cart.php:362
 #, php-format
 msgid "The maximum allowed quantity for %1$s is %2$s."
 msgstr ""
 
 #. translators: %1$s: Product name, %2$d: Minimum quantity
-#: includes/Cart.php:272
-#: includes/Cart.php:361
+#: includes/Cart.php:282
+#: includes/Cart.php:371
 #, php-format
 msgid "The minimum required quantity for %1$s is %2$s."
 msgstr ""
 
 #. translators: %1$s: Product name, %2$d: Group amount
-#: includes/Cart.php:279
+#: includes/Cart.php:289
 #, php-format
 msgid "The quantity of %1$s must be purchased in groups of %2$s."
 msgstr ""
 
 #. translators: %d: Maximum quantity
-#: includes/Cart.php:289
+#: includes/Cart.php:299
 #, php-format
 msgid "The maximum allowed order quantity is %s."
 msgstr ""
 
 #. translators: %s: Maximum amount
-#: includes/Cart.php:296
+#: includes/Cart.php:306
 #, php-format
 msgid "The maximum allowed order total is %s."
 msgstr ""
 
 #. translators: %1$s: Product name, %2$d: quantity amount
-#: includes/Cart.php:368
+#: includes/Cart.php:378
 #, php-format
 msgid "%1$s must be bought in groups of %2$s. Please increase or decrease the quantity to continue."
 msgstr ""
 
 #. translators: %d: Minimum amount of items in the cart
-#: includes/Cart.php:381
+#: includes/Cart.php:391
 #, php-format
 msgid "The minimum required quantity in the cart is %s. Please consider increasing the quantity in your cart."
 msgstr ""
 
 #. translators: %d: Maximum amount of items in the cart
-#: includes/Cart.php:390
+#: includes/Cart.php:400
 #, php-format
 msgid "The maximum allowed order quantity is %s. Please reduce the quantity in your cart."
 msgstr ""
 
 #. translators: %d: Minimum amount of items in the cart
-#: includes/Cart.php:398
+#: includes/Cart.php:408
 #, php-format
 msgid "The minimum allowed order total value is %s. Please consider increasing the quantity in your cart."
 msgstr ""
 
 #. translators: %d: Maximum amount of items in the cart
-#: includes/Cart.php:407
+#: includes/Cart.php:417
 #, php-format
 msgid "The maximum allowed order total value is %s. Please reduce the quantity in your cart."
 msgstr ""
 
-#: includes/Cart.php:504
+#: includes/Cart.php:514
 msgid "Available on backorder"
 msgstr ""
 
-#: includes/Cart.php:510
+#: includes/Cart.php:520
 msgid "Out of stock"
 msgstr ""
 
 #. translators: 1: plugin name 2: version number
-#: includes/Installer.php:80
+#: includes/Installer.php:79
 #, php-format
 msgid "%1$s updated to version %2$s successfully."
 msgstr ""
 
-#: includes/Plugin.php:77
+#: includes/Plugin.php:53
+msgid "Settings"
+msgstr ""
+
+#: includes/Plugin.php:58
 msgid "Go Pro"
+msgstr ""
+
+#: includes/Plugin.php:87
+msgid "Support"
 msgstr ""

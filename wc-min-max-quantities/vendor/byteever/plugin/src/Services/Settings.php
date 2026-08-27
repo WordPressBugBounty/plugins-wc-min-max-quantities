@@ -1,20 +1,19 @@
 <?php
 
-namespace WooCommerceMinMaxQuantities\B8\Plugin\Services;
+namespace PluginEver\MinMaxQuantities\B8\Services;
 
-use ArrayAccess;
-use WooCommerceMinMaxQuantities\B8\Plugin\App;
+use PluginEver\MinMaxQuantities\B8\App;
 defined('ABSPATH') || exit;
 /**
- * Settings registry service.
+ * Handles plugin settings.
  *
- * Provides access to plugin settings definitions.
- * Settings are provided via filter hook.
+ * Holds the field definitions and exposes them, grouped, to the admin UI and
+ * REST, plus value read and write. It has no hooks and renders nothing.
  *
- * @since 1.0.0
- * @package \B8\Plugin
+ * @since   1.0.0
+ * @package \B8
  */
-class Settings implements ArrayAccess
+class Settings
 {
     /**
      * Application instance.
@@ -24,17 +23,16 @@ class Settings implements ArrayAccess
      */
     protected App $app;
     /**
-     * Registered settings.
+     * Resolved settings keyed by group.
      *
      * @since 1.0.0
-     * @var array<string, array>|null
+     * @var array<string, array{group: string, title: string, fields: array<int, array<string, mixed>>}>|null
      */
     protected ?array $settings = null;
     /**
      * Constructor.
      *
      * @since 1.0.0
-     *
      * @param App $app Application instance.
      */
     public function __construct(App $app)
@@ -42,226 +40,199 @@ class Settings implements ArrayAccess
         $this->app = $app;
     }
     /**
-     * Get all registered settings.
-     *
-     * Settings are provided via filter in nested structure:
-     * [
-     *     'general' => [
-     *         'api_key' => [ 'type' => 'text', 'default' => '' ],
-     *     ],
-     * ]
+     * Get the settings.
      *
      * @since 1.0.0
-     *
-     * @param string|null $group Optional. Filter by group.
-     *
-     * @return array<string, array> Settings definitions keyed by ID.
+     * @return array<string, array{group: string, title: string, fields: array<int, array<string, mixed>>}> Resolved settings keyed by group.
      */
-    public function settings(?string $group = null): array
+    public function get_settings(): array
     {
         if (null === $this->settings) {
+            $this->settings = array();
             /**
-             * Filter the settings.
+             * Filters the settings definition.
              *
              * @since 1.0.0
-             *
-             * @param array $raw Nested settings array keyed by group.
+             * @param array<string, mixed> $settings Settings definition keyed by group.
              */
-            $raw = $this->app->apply_filters('settings', array());
-            $settings = array();
-            foreach (array_keys($raw) as $group_id) {
+            $settings = (array) $this->app->apply_filters('settings', $this->define_settings());
+            /**
+             * Filters the settings groups.
+             *
+             * @since 1.0.0
+             * @param array<string, string|null> $groups Group titles keyed by id; null when untitled.
+             */
+            $groups = (array) $this->app->apply_filters('settings_groups', array_map(static fn($group) => is_array($group) ? $group['title'] ?? null : null, $settings));
+            foreach ($groups as $group => $title) {
+                if (is_int($group)) {
+                    $group = $title;
+                    $title = null;
+                }
+                $fields = $settings[$group] ?? array();
+                $group = sanitize_key((string) $group);
+                if (empty($group)) {
+                    continue;
+                }
+                $fields = wp_is_numeric_array($fields) ? $fields : (array) ($fields['fields'] ?? array());
                 /**
-                 * Filter settings fields for a specific group.
+                 * Filters the fields for a settings group.
                  *
                  * @since 1.0.0
-                 * @param array $fields Fields for the group.
-                 * @param string $group_id Group ID.
+                 * @param array<int|string, mixed> $fields Field declarations for the group.
                  */
-                $fields = $this->app->apply_filters("{$group_id}_settings", $raw[$group_id] ?? array(), $group_id);
-                foreach ($fields as $field) {
-                    if (!is_array($field) || empty($field['id'])) {
-                        continue;
+                $fields = (array) $this->app->apply_filters($group . '_settings', $fields);
+                $title = is_string($title) && '' !== $title ? $title : ucwords(str_replace(array('-', '_'), ' ', $group));
+                foreach ($fields as $index => $field) {
+                    $field = wp_parse_args((array) $field, array('id' => '', 'name' => '', 'type' => 'text', 'label' => '', 'desc' => '', 'placeholder' => '', 'default' => null, 'sanitize' => '', 'priority' => 10, 'options' => array(), 'no_option' => false, 'show_if' => '', 'attrs' => array()));
+                    if ('' === $field['id'] && '' !== $field['name']) {
+                        $field['id'] = $field['name'];
                     }
-                    $field = wp_parse_args($field, array('name' => $field['id'], 'group' => $group_id, 'type' => 'text', 'label' => '', 'description' => '', 'placeholder' => '', 'default' => null, 'sanitize' => '', 'priority' => 10));
-                    $settings[$field['id']] = $field;
+                    $field['group'] = $group;
+                    $fields[$index] = $field;
                 }
+                uasort($fields, static fn($a, $b) => ($a['priority'] ?? 10) <=> ($b['priority'] ?? 10));
+                $this->settings[$group] = array('group' => $group, 'title' => $title, 'fields' => $fields);
             }
-            uasort($settings, static fn($a, $b) => ($a['priority'] ?? 10) <=> ($b['priority'] ?? 10));
-            $this->settings = $settings;
-        }
-        if (!empty($group)) {
-            return wp_list_filter($this->settings, array('group' => $group));
         }
         return $this->settings;
     }
     /**
-     * Get a setting value.
+     * Get the groups.
      *
      * @since 1.0.0
-     *
-     * @param string $key      Field key.
-     * @param mixed  $fallback Fallback value if field not registered.
-     *
-     * @return mixed Setting value or fallback.
+     * @return array<string, string> Group labels keyed by group id.
      */
-    public function value(string $key, $fallback = null)
+    public function get_groups(): array
     {
-        if (!isset($this[$key])) {
-            return $fallback;
+        $groups = array();
+        foreach ($this->get_settings() as $id => $group) {
+            $groups[$id] = $group['title'];
         }
-        $field = $this[$key];
-        return $this->app->options->get($key, $field['default']);
+        return $groups;
     }
     /**
-     * Update setting value(s) with sanitization.
+     * Get a group's fields.
      *
      * @since 1.0.0
-     *
-     * @param string|array $key   Field key or array of key-value pairs.
-     * @param mixed        $value New value (ignored if $key is array).
-     *
-     * @return bool True on success, false if field not registered.
+     * @param string $group Group id.
+     * @return array<int, array<string, mixed>> Field declarations.
      */
-    public function update($key, $value = null): bool
+    public function get_fields(string $group): array
     {
-        if (is_array($key)) {
-            $success = true;
-            foreach ($key as $k => $v) {
-                if (!$this->update($k, $v)) {
-                    $success = false;
-                }
-            }
-            return $success;
-        }
-        if (!isset($this[$key])) {
-            return false;
-        }
-        $sanitized = $this->sanitize($value, $this[$key]);
-        return $this->app->options->update($key, $sanitized);
+        return $this->get_settings()[$group]['fields'] ?? array();
     }
     /**
-     * Get all current setting values.
+     * Get the current values.
      *
      * @since 1.0.0
-     *
-     * @return array
+     * @param array<int, array<string, mixed>> $fields Field declarations.
+     * @return array<string, mixed> Saved values keyed by field name, falling back to defaults.
      */
-    public function values(): array
+    public function get_values(array $fields): array
     {
         $values = array();
-        foreach ($this->settings() as $id => $field) {
-            $values[$id] = $this->app->options->get($id, $field['default']);
+        foreach ($fields as $field) {
+            if (empty($field['name']) || !empty($field['no_option'])) {
+                continue;
+            }
+            $values[$field['name']] = $this->app->options->get($field['name'], $field['default'] ?? null);
         }
         return $values;
     }
     /**
-     * Get all default values.
+     * Save the field values.
      *
      * @since 1.0.0
-     *
-     * @return array
-     */
-    public function defaults(): array
-    {
-        return array_map(static fn($f) => $f['default'], $this->settings());
-    }
-    /**
-     * Reset setting(s) to default value.
-     *
-     * @since 1.0.0
-     *
-     * @param string $key Optional. Field key. Resets all if empty.
-     *
+     * @param array<int, array<string, mixed>> $fields Field declarations to save.
+     * @param array<string, mixed>             $data Submitted values keyed by field name.
      * @return bool True on success.
      */
-    public function reset(string $key = ''): bool
+    public function save_fields(array $fields, array $data): bool
     {
-        if (empty($key)) {
-            $success = true;
-            foreach ($this->settings() as $id => $field) {
-                if (!$this->app->options->update($id, $field['default'])) {
-                    $success = false;
+        foreach ($fields as $field) {
+            if (empty($field['name']) || !empty($field['no_option'])) {
+                continue;
+            }
+            $name = $field['name'];
+            $value = $data[$name] ?? null;
+            $sanitize = $field['sanitize'] ?? '';
+            $type = $field['type'] ?? 'text';
+            if (!is_string($sanitize) && is_callable($sanitize)) {
+                $value = call_user_func($sanitize, $value, $field);
+            } elseif (is_string($sanitize) && '' !== $sanitize) {
+                foreach (explode('|', $sanitize) as $rule) {
+                    $rule = trim($rule);
+                    if ('' === $rule) {
+                        continue;
+                    }
+                    $params = array();
+                    if (str_contains($rule, ':')) {
+                        list($rule, $args) = explode(':', $rule, 2);
+                        $params = array_map('trim', explode(',', $args));
+                    }
+                    $value = $this->app->request->sanitize_value($value, $rule, $params);
+                }
+            } else {
+                switch ($type) {
+                    case 'email':
+                        $value = sanitize_email((string) $value);
+                        break;
+                    case 'url':
+                        $value = esc_url_raw((string) $value);
+                        break;
+                    case 'number':
+                        $value = is_numeric($value) ? $value + 0 : '';
+                        break;
+                    case 'textarea':
+                        $value = sanitize_textarea_field((string) $value);
+                        break;
+                    case 'editor':
+                        $value = wp_kses_post((string) $value);
+                        break;
+                    case 'checkbox':
+                    case 'toggle':
+                    case 'switch':
+                        $value = in_array($value, array('yes', '1', 1, true), true) ? 'yes' : 'no';
+                        break;
+                    case 'multiselect':
+                    case 'multicheck':
+                    case 'checkboxes':
+                        $value = array_map('sanitize_text_field', array_map('strval', (array) $value));
+                        break;
+                    default:
+                        $value = $this->app->request->clean_value($value);
+                        break;
                 }
             }
-            return $success;
+            $this->app->options->update($name, $value);
         }
-        if (!isset($this[$key])) {
-            return false;
-        }
-        return $this->app->options->update($key, $this[$key]['default']);
+        return true;
     }
     /**
-     * Sanitize a value using field rules.
+     * Define the settings.
+     *
+     * Override to declare the plugin's settings. Keyed by group; each group is
+     * either a direct field array, or an array with a `title` and a `fields` key.
+     *
+     * Example:
+     *
+     *     return array(
+     *         'general'  => array(
+     *             array( 'name' => 'site_name', 'type' => 'text', 'label' => 'Site Name' ),
+     *         ),
+     *         'advanced' => array(
+     *             'title'  => 'Advanced Options',
+     *             'fields' => array(
+     *                 array( 'name' => 'cache_ttl', 'type' => 'number', 'default' => 3600 ),
+     *             ),
+     *         ),
+     *     );
      *
      * @since 1.0.0
-     *
-     * @param mixed $value Value to sanitize.
-     * @param array $field Field definition.
-     *
-     * @return mixed Sanitized value.
+     * @return array<string, mixed> Settings definition keyed by group.
      */
-    public function sanitize($value, array $field)
+    protected function define_settings(): array
     {
-        $sanitize = $field['sanitize'];
-        if (is_callable($sanitize)) {
-            return is_array($value) ? array_map($sanitize, $value) : call_user_func($sanitize, $value);
-        }
-        if (empty($sanitize)) {
-            $defaults = array('textarea' => 'textarea', 'editor' => 'html', 'email' => 'email', 'url' => 'url', 'number' => 'int');
-            $sanitize = $defaults[$field['type']] ?? 'text';
-        }
-        $result = $this->app->sanitizer->sanitize(array('value' => $value), array('value' => $sanitize));
-        return $result['value'];
-    }
-    /**
-     * Check if offset exists.
-     *
-     * @since 1.0.0
-     *
-     * @param mixed $offset Offset key.
-     *
-     * @return bool
-     */
-    public function offsetExists($offset): bool
-    {
-        return array_key_exists($offset, $this->settings());
-    }
-    /**
-     * Get offset value.
-     *
-     * @since 1.0.0
-     *
-     * @param mixed $offset Offset key.
-     *
-     * @return array|null
-     */
-    public function offsetGet($offset): ?array
-    {
-        return $this->settings()[$offset] ?? null;
-    }
-    /**
-     * Set offset - no-op, registry is read-only.
-     *
-     * @since 1.0.0
-     *
-     * @param mixed $offset Offset key.
-     * @param mixed $value  Offset value.
-     *
-     * @return void
-     */
-    public function offsetSet($offset, $value): void
-    {
-    }
-    /**
-     * Unset offset - no-op, registry is read-only.
-     *
-     * @since 1.0.0
-     *
-     * @param mixed $offset Offset key.
-     *
-     * @return void
-     */
-    public function offsetUnset($offset): void
-    {
+        return array();
     }
 }
